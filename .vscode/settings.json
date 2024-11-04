@@ -1,0 +1,14 @@
+{
+    "C_Cpp.default.includePath": [
+        "C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include",
+        "C:/ti/TivaWare_C_Series-1.0/examples/boards/ek-tm4c123gxl",
+        "C:/ti/TivaWare_C_Series-1.0",
+        "${workspaceFolder}"
+    ],
+    "C_Cpp.default.defines": [
+        "ccs=ccs",
+        "PART_TM4C123GH6PM",
+        "TARGET_IS_BLIZZARD_RB1",
+        "PART_TM4C123GE6PM"
+    ]
+}

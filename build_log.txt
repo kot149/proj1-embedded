@@ -1,0 +1,20 @@
+
+**** Build of configuration Debug for project blinky_smooth ****
+
+"C:\\ti\\ccs1280\\ccs\\utils\\bin\\gmake" -k all
+
+Building file: "../blinky_smooth_main.c"
+Invoking: ARM Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me -O2 --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --include_path="C:/ti/TivaWare_C_Series-1.0/examples/boards/ek-tm4c123gxl" --include_path="C:/ti/TivaWare_C_Series-1.0" --define=ccs="ccs" --define=PART_TM4C123GH6PM --define=TARGET_IS_BLIZZARD_RB1 --define=PART_TM4C123GE6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --gen_func_subsections=on --abi=eabi --ual --preproc_with_compile --preproc_dependency="blinky_smooth_main.d_raw"  "../blinky_smooth_main.c"
+Finished building: "../blinky_smooth_main.c"
+
+Building target: "blinky_smooth.out"
+Invoking: ARM Linker
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me -O2 --define=ccs="ccs" --define=PART_TM4C123GH6PM --define=TARGET_IS_BLIZZARD_RB1 --define=PART_TM4C123GE6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --gen_func_subsections=on --abi=eabi --ual -z -m"app_TM4C123GE6PM_ccs.map" --heap_size=0 --stack_size=512 -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="blinky_smooth_linkInfo.xml" --rom_model -o "blinky_smooth.out" "./blinky_smooth_main.obj" "./my_util.obj" "./periphConf.obj" "./startup_ccs.obj" "../tm4c123ge6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-1.0/driverlib/ccs/Debug/driverlib.lib"
+<Linking>
+Finished building target: "blinky_smooth.out"
+
+"C:/ti/ccs1280/ccs/utils/tiobj2bin/tiobj2bin" "blinky_smooth.out" "blinky_smooth.bin" "C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armofd" "C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armhex" "C:/ti/ccs1280/ccs/utils/tiobj2bin/mkhex4bin"
+
+
+**** Build Finished ****

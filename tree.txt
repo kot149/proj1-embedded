@@ -1,0 +1,76 @@
+.
+├── Makefile
+├── RemoteSystemsTempFiles
+├── blinky
+│   ├── Debug
+│   │   ├── app_TM4C123GE6PM_ccs.map
+│   │   ├── blinky-old.bin
+│   │   ├── blinky-old_linkInfo.xml
+│   │   ├── blinky.bin
+│   │   ├── blinky.out
+│   │   ├── blinky_linkInfo.xml
+│   │   ├── blinky_main.d
+│   │   ├── blinky_main.obj
+│   │   ├── blinky_main_ass2.d
+│   │   ├── blinky_main_smooth.d
+│   │   ├── ccsObjs.opt
+│   │   ├── makefile
+│   │   ├── my_util.d
+│   │   ├── my_util.obj
+│   │   ├── objects.mk
+│   │   ├── periphConf.d
+│   │   ├── periphConf.obj
+│   │   ├── sources.mk
+│   │   ├── startup_ccs.d
+│   │   ├── startup_ccs.obj
+│   │   ├── subdir_rules.mk
+│   │   └── subdir_vars.mk
+│   ├── README.md
+│   ├── blinky_main.c
+│   ├── blinky_main.cmd
+│   ├── macros.ini_initial
+│   ├── my_util.c
+│   ├── my_util.h
+│   ├── periphConf.c
+│   ├── periphConf.h
+│   ├── startup_ccs.c
+│   ├── target_config.ccxml
+│   └── tm4c123ge6pm.cmd
+├── blinky_smooth
+│   ├── Debug
+│   │   ├── app_TM4C123GE6PM_ccs.map
+│   │   ├── blinky.bin
+│   │   ├── blinky.out
+│   │   ├── blinky_linkInfo.xml
+│   │   ├── blinky_main.d
+│   │   ├── blinky_main_ass2.d
+│   │   ├── blinky_main_smooth.d
+│   │   ├── blinky_main_smooth.obj
+│   │   ├── blinky_smooth.bin
+│   │   ├── blinky_smooth.out
+│   │   ├── blinky_smooth_linkInfo.xml
+│   │   ├── blinky_smooth_main.d
+│   │   ├── blinky_smooth_main.obj
+│   │   ├── ccsObjs.opt
+│   │   ├── makefile
+│   │   ├── my_util.d
+│   │   ├── my_util.obj
+│   │   ├── objects.mk
+│   │   ├── periphConf.d
+│   │   ├── periphConf.obj
+│   │   ├── sources.mk
+│   │   ├── startup_ccs.d
+│   │   ├── startup_ccs.obj
+│   │   ├── subdir_rules.mk
+│   │   └── subdir_vars.mk
+│   ├── README.md
+│   ├── blinky_main.cmd
+│   ├── blinky_smooth_main.c
+│   ├── macros.ini_initial
+│   ├── my_util.c
+│   ├── my_util.h
+│   ├── periphConf.c
+│   ├── periphConf.h
+│   ├── startup_ccs.c
+│   ├── target_config.ccxml
+│   └── tm4c123ge6pm.cmd

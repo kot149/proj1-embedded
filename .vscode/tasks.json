@@ -1,0 +1,71 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Blinky Smooth",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "blinky_smooth"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": ["relative", "${workspaceFolder}"],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
+        },
+        {
+            "label": "Build Blinky",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "blinky"
+            ]
+        },
+        {
+            "label": "Build All",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "all"
+            ]
+        },
+        {
+            "label": "Clean All",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "clean"
+            ]
+        },
+        {
+            "label": "Clean Blinky Smooth",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "PROJECT=blinky_smooth",
+                "clean_project"
+            ]
+        },
+        {
+            "label": "Clean Blinky",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "PROJECT=blinky",
+                "clean_project"
+            ]
+        }
+    ]
+}
