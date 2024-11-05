@@ -15,7 +15,7 @@ set OUT_FILE=%~dp0blinky_smooth\Debug\blinky_smooth.out
 
 rem フラッシュへの書き込み
 echo Programming flash...
-"%DSLITE_PATH%" flash -c "%CCXML_FILE%" -f "%OUT_FILE%" -r Reset -u -e
+"%DSLITE_PATH%" flash -c "%CCXML_FILE%" -f "%OUT_FILE%" -r 0 -u -e
 
 echo Programming completed
 endlocal
