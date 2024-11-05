@@ -1,6 +1,5 @@
 .
 ├── Makefile
-├── RemoteSystemsTempFiles
 ├── blinky
 │   ├── Debug
 │   │   ├── app_TM4C123GE6PM_ccs.map
