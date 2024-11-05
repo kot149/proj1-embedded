@@ -46,31 +46,15 @@ uint8_t colorSensorAdjustState = 0;
 #define COLOR_NUM     4
 
 #define MAX_COLOR_NAME_LENGTH 6
-uint8_t color_name_str[COLOR_NUM+1][MAX_COLOR_NAME_LENGTH] = {"None", "Red", "Green", "Blue", "Yellow"};
-uint8_t color_name_str_s[COLOR_NUM+1][MAX_COLOR_NAME_LENGTH]; // Color name with space
-uint8_t color_count[COLOR_NUM+1]; // Array to store the number of detection of each colors
+uint8_t color_name_str[COLOR_NUM+1][MAX_COLOR_NAME_LENGTH+1] = {"None", "Red", "Green", "Blue", "Yellow"};
+uint8_t color_count[COLOR_NUM+1] = {0, 0, 0, 0, 0}; // Array to store the number of detection of each colors
 
-uint32_t base_led_color;
-uint32_t led_color = LED_ALL;
-
-void initColorArrays(void){// Init color_name_str_s[][] and color_count[]
-    uint8_t i, j;
-    for(i = 0; i <= COLOR_NUM; i++){
-        for(j = 0; j < MAX_COLOR_NAME_LENGTH; j++){
-            if(color_name_str[i][j] == '\0'){
-                while(j < MAX_COLOR_NAME_LENGTH) color_name_str_s[i][j++] = ' ';
-                break;
-            }
-            color_name_str_s[i][j] = color_name_str[i][j];
-        }
-        color_count[i] = 0;
-    }
-}
+uint32_t led_color[] = {LED_WHITE, LED_RED, LED_GREEN, LED_BLUE, LED_YELLOW};
 
 // Array to store the value G/R and B/R of each color
 float color_ratio[COLOR_NUM][2];
 
-int8_t last_color = -1;
+int8_t last_color = COLOR_NONE;
 int8_t color_wanted = COLOR_RED;
 
 bool ringing = false;
@@ -78,6 +62,9 @@ uint8_t systick_per_sec = 32;
 
 // Threshold of color sensor interrupt
 uint16_t low_th = 0, high_th;
+
+uint8_t operator = '+';
+uint32_t operand1 = 0, operand2 = 0;
 
 void clearTextLCD(uint8_t mode){
     if(mode == 1 || mode == 3){
@@ -158,6 +145,8 @@ void setColorRatio(uint8_t color){
 
     clearTextLCD(3);
     setAddressLCD(0, 0);
+//    UARTprintf(color_name_str[color]);
+    UARTprintf("\n");
     writeTextLCD("Reading data ", 13);
     for(i = 0; i < 10; i++){
         setAddressLCD(13, 0);
@@ -167,6 +156,13 @@ void setColorRatio(uint8_t color){
         data[1][i] = read16ColorSensor(GDATAL_REG);
         data[2][i] = read16ColorSensor(BDATAL_REG);
         delay_ms(154);
+
+//        UARTprintf(itoh(data[0][i], 4), 4);
+//        UARTprintf("\t");
+//        UARTprintf(itoh(data[1][i], 4), 4);
+//        UARTprintf("\t");
+//        UARTprintf(itoh(data[2][i], 4), 4);
+//        UARTprintf("\n");
     }
     ave_r = average(data[0], 10);
 
@@ -244,14 +240,15 @@ void initInterruptPins(void) {
 //*****************************************************************************
 
 void SysTickIntHandler(void) {
+    static uint32_t led_base = LED_ALL;
     static uint32_t tick_count = 0;
     static uint32_t buzzer_count = 0;
 
     // Blink LED
     if(tick_count >= systick_per_sec / 2){
-        led_color = ~led_color;
-        GPIOPinWrite(GPIO_PORTF_BASE,LED_ALL,0); // turn off all LEDs
-        GPIOPinWrite(GPIO_PORTF_BASE,base_led_color,led_color);
+        led_base = ~led_base;
+        GPIOPinWrite(GPIO_PORTF_BASE, LED_ALL, 0);
+        GPIOPinWrite(GPIO_PORTF_BASE, led_color[last_color], led_base);
         tick_count = 0;
     }
     tick_count++;
@@ -267,82 +264,92 @@ void SysTickIntHandler(void) {
     }
 }
 
-//void TimerIntHandler(void){
-//    restBuzzer();
-//}
+void TimerIntHandler(void){
+    LCDprint("Timer Intterupt");
+}
+
+int8_t digit(uint32_t n, uint32_t d){
+    UARTprintf("%d\n", n / d - n / (d*10));
+    return n / d - n / d / 10 * 10;
+}
 
 void SW1PinIntHandler(void) {
     GPIOIntDisable(GPIO_PORTF_BASE, INT_ALL_BUTTONS);
     GPIOIntClear(GPIO_PORTF_BASE, INT_ALL_BUTTONS);
 
-    uint8_t i = 0;
-    uint16_t data[10];
+//    static int c = 0;
+//
+//    c++;
+//    setAddressLCD(0, 0);
+//    writeTextLCD("SW1 Interrupt ", 14);
+//    writeTextLCD(itoa(c, 2), 2);
+//    setAddressLCD(0, 1);
+//    UARTprintf("%d: PF4: %d, ", c, GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4));
+//    UARTprintf("PF0: %d\n", GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0));
 
-    switch(colorSensorAdjustState){
-    case 0:
-        LCDprint("Push SW1 to determine black.");
-        colorSensorAdjustState = 1;
+    uint8_t pos = getCursorpos();
+    uint32_t d = 1;
+    uint8_t i;
+    uint8_t str[4];
+    uint32_t result;
+
+    switch(pos){
+    case 0: case 1: case 2: case 3:
+        for(i = 0; i < 3-pos; i++) d *= 10;
+
+        if(digit(operand1, d) == 9) operand1 -= 9 * d;
+        else operand1 += d;
+
+        writeTextLCD(itoa(digit(operand1, d), 1), 1);
+        setAddressLCD(pos, 0);
         break;
-    case 1: // Determine Black
-        clearTextLCD(3);
-        setAddressLCD(0, 0);
-        writeTextLCD("Reading data ", 13);
-        for(i = 0; i < 10; i++){
-            setAddressLCD(13, 0);
-            writeTextLCD(itoa(i+1, 2), 2);
-
-            data[i] = read16ColorSensor(CDATAL_REG);
-            delay_ms(154);
+    case 4:
+        switch(operator){
+        case '+':
+            operator = '-';
+            break;
+        case '-':
+            operator = '*';
+            break;
+        case '*':
+            operator = '/';
+            break;
+        case '/':
+            operator = '+';
+            break;
         }
-
-        high_th = (uint16_t)(average(data, 10) + sqrt(variance(data, 10)) * 5);
-        setIntThresholdColorSensor(low_th, high_th);
-
-        LCDprint("Push SW1 to determine red.");
-
-        colorSensorAdjustState = 2;
+        str[0] = operator;
+        writeTextLCD(str, 1);
+        setAddressLCD(pos, 0);
         break;
-    case 2: // Determine Red
-        setColorRatio(COLOR_RED);
 
-        LCDprint("Push SW1 to determine green.");
-        colorSensorAdjustState = 3;
+    case 5: case 6: case 7: case 8:
+        for(i = 0; i < 8-pos; i++) d *= 10;
+
+        if(digit(operand2, d) == 9) operand2 -= 9 * d;
+        else operand2 += d;
+
+        writeTextLCD(itoa(digit(operand2, d), 1), 1);
+        setAddressLCD(pos, 0);
         break;
-    case 3: // Determine Green
-        setColorRatio(COLOR_GREEN);
-
-        LCDprint("Push SW1 to determine blue.");
-        colorSensorAdjustState = 4;
-        break;
-    case 4: // Determine Blue
-        setColorRatio(COLOR_BLUE);
-
-        LCDprint("Push SW1 to determine yellow.");
-        colorSensorAdjustState = 5;
-        break;
-    case 5: // Determine Yellow
-        setColorRatio(COLOR_YELLOW);
-
-        LCDprint("Done. Push SW1 to continue.");
-        colorSensorAdjustState = 6;
-        break;
-    case 6:
-        // Initialize LCD
-        clearTextLCD(3);
-        setAddressLCD(0, 0);
-        writeTextLCD("Red", 3);
-        setAddressLCD(0, 1);
-        writeTextLCD("None", 4);
-        showColorCount();
-
-        // Enable Color Sensor Interrupt
-        GPIOIntEnable(GPIO_PORTB_BASE, GPIO_INT_PIN_0);
-        // Enable Rotary Encoder Interrupt
-        GPIOIntEnable(GPIO_PORTD_BASE, GPIO_INT_PIN_6);
-    case 7: // Reset color detection count
-        color_count[COLOR_RED] = color_count[COLOR_GREEN] = color_count[COLOR_YELLOW] = color_count[COLOR_BLUE] = 0;
-        showColorCount();
-
+    case 9:
+        switch(operator){
+        case '+':
+            result = operand1 + operand2;
+            break;
+        case '-':
+            result = operand1 - operand2;
+            break;
+        case '*':
+            result = operand1 * operand2;
+            break;
+        case '/':
+            result = operand1 / operand2;
+            break;
+        }
+        setAddressLCD(10, 0);
+        writeTextLCD(itoa(result, 6), 6);
+        setAddressLCD(pos, 0);
         break;
     }
 
@@ -362,27 +369,8 @@ void ColorSensorIntHandler(void){
             color_count[color_detected]++;
             showColorCount();
 
-            // Set LED color
-            switch(color_detected){
-            case COLOR_RED:
-                base_led_color = LED_RED;
-                break;
-            case COLOR_GREEN:
-                base_led_color = LED_GREEN;
-                break;
-            case COLOR_BLUE:
-                base_led_color = LED_BLUE;
-                break;
-            case COLOR_YELLOW:
-                base_led_color = LED_YELLOW;
-                break;
-            default:
-                base_led_color = LED_WHITE;
-            }
-
-            // Tone buzzer if detected color is the wanted color
             if(color_detected == color_wanted) toneBuzzer(O4A);
-            // else toneBuzzer(O4E);
+            else toneBuzzer(O4E);
             ringing = true;
         }
         setIntThresholdColorSensor(low_th, low_th);
@@ -391,7 +379,11 @@ void ColorSensorIntHandler(void){
     }
 
     setAddressLCD(0, 1);
-    writeTextLCD(color_name_str_s[color_detected], 6);
+    uint8_t i;
+    for(i = 0; i < MAX_COLOR_NAME_LENGTH; i++) writeTextLCD(" ", 1);
+    setAddressLCD(0, 1);
+    writeTextLCD(color_name_str[color_detected], 6);
+
     last_color = color_detected;
 
     GPIOIntEnable(GPIO_PORTB_BASE, INT_ALL_BUTTONS);
@@ -401,12 +393,7 @@ void REPinIntHandler(void) {
     GPIOIntDisable(GPIO_PORTD_BASE, GPIO_INT_PIN_6);
     GPIOIntClear(GPIO_PORTD_BASE, GPIO_INT_PIN_6);
 
-    color_wanted += QEIDirectionGet(QEI0_BASE);
-    if(color_wanted == 0) color_wanted = COLOR_NUM;
-    else if(color_wanted == COLOR_NUM+1) color_wanted = 1;
-
-    setAddressLCD(0, 0);
-    writeTextLCD(color_name_str_s[color_wanted], 6);
+    shiftCursor(-QEIDirectionGet(QEI0_BASE));
 
     GPIOIntEnable(GPIO_PORTD_BASE, GPIO_INT_PIN_6);
 }
@@ -440,14 +427,19 @@ int main(void) {
     initColorSensor(INTEGRATIONTIME_154MS, GAIN_16X);
     clearIntColorSensor();
 
-    initColorArrays();
-
-    led_color = LED_ALL;
-    base_led_color = LED_ALL;
-
+    // Enable SW1 Interrupt
+//    GPIOIntEnable(GPIO_PORTF_BASE, INT_LEFT_BUTTON);
+//    GPIOIntEnable(GPIO_PORTF_BASE, INT_RIGHT_BUTTON);
     GPIOIntEnable(GPIO_PORTF_BASE, INT_ALL_BUTTONS);
 
-    LCDprint("Push SW1 to start adjustment...");
+    // Enable Color Sensor Interrupt
+    //GPIOIntEnable(GPIO_PORTB_BASE, GPIO_INT_PIN_0);
+    // Enable Rotary Encoder Interrupt
+    GPIOIntEnable(GPIO_PORTD_BASE, GPIO_INT_PIN_6);
+
+    setAddressLCD(0, 0);
+    writeTextLCD("0000+0000=", 10);
+    setAddressLCD(0, 0);
 
     // Init SysTick Interrupt
     SysTickPeriodSet(SysCtlClockGet() / systick_per_sec);
@@ -456,12 +448,15 @@ int main(void) {
     SysTickIntEnable();
 
     // Init Timer Interrupt
-    //  toneBuzzer(O4C);
-    //  TimerIntRegister(WTIMER5_BASE, TIMER_B, TimerIntHandler);
-    //  TimerLoadSet64(WTIMER5_BASE, 10);
-    //  TimerIntEnable(WTIMER5_BASE, TIMER_TIMB_TIMEOUT);
-    //  TimerEnable(WTIMER5_BASE, TIMER_B);
-    //  IntEnable(INT_WTIMER5B);
+//    toneBuzzer(O4C);
+//    TimerIntRegister(WTIMER5_BASE, TIMER_B, TimerIntHandler);
+//    ROM_TimerLoadSet64(WTIMER5_BASE, 10);
+//    ROM_TimerIntEnable(WTIMER5_BASE, TIMER_TIMB_TIMEOUT);
+//    ROM_TimerEnable(WTIMER5_BASE, TIMER_B);
+//    ROM_IntEnable(INT_WTIMER5B);
+
+    enableCursor(true, true);
+    //iconLCD();
 
     while(1);
 }
