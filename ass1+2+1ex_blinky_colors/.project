@@ -31,7 +31,7 @@
 		</variable>
 		<variable>
 			<name>SW_ROOT</name>
-			<value>file:/C:/ti/TivaWare_C_Series-1.0</value>
+			<value>$%7BTI_PRODUCTS_DIR__TIREX%7D/TivaWare_C_Series-1.0</value>
 		</variable>
 	</variableList>
 </projectDescription>
