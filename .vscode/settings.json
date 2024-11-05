@@ -14,7 +14,8 @@
     "files.associations": {
         "*.exp": "tcl",
         "*.ahk1": "ahk",
-        "i2c.h": "c"
+        "i2c.h": "c",
+        "lcd_sb1602.h": "c"
     },
     "cortex-debug.armToolchainPath": "C:/Users/ku0143/AppData/Local/UniGetUI/Chocolatey/bin",
     "cortex-debug.openocdPath": "C:/Users/ku0143/AppData/Local/UniGetUI/Chocolatey/bin/openocd.exe",
