@@ -43,6 +43,10 @@
 // as the example is running.
 //
 //*****************************************************************************
+
+int tone;
+int isRinging = 0;
+
 void initConsole(void) {
   // Enable GPIO port A which is used for UART0 pins.
   SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
@@ -61,6 +65,11 @@ void initConsole(void) {
 }
 
 void initInterruptPins(void) {
+    GPIOIntClear(GPIO_PORTF_BASE, INT_ALL_BUTTONS);
+
+    GPIOIntRegister(GPIO_PORTF_BASE, SW1PinIntHandler);
+
+    GPIOIntTypeSet(GPIO_PORTF_BASE, INT_ALL_BUTTONS, GPIO_FALLING_EDGE);
 }
 
 //*****************************************************************************
@@ -84,6 +93,39 @@ void SysTickIntHandler(void) {
 }
 
 void SW1PinIntHandler(void) {
+    GPIOIntDisable(GPIO_PORTF_BASE, INT_ALL_BUTTONS);
+    GPIOIntClear(GPIO_PORTF_BASE, INT_ALL_BUTTONS);
+
+    if(isRinging){
+        restBuzzer();
+        isRinging = 0;
+    } else {
+        switch(tone){
+        case O4C:
+            tone = O4D;
+            break;
+        case O4D:
+            tone = O4E;
+            break;
+        case O4E:
+            tone = O4F;
+            break;
+        case O4F:
+            tone = O4G;
+            break;
+        case O4G:
+            tone = O4C;
+            break;
+        default:
+            tone = O4C;
+            break;
+        }
+
+        toneBuzzer(tone);
+        isRinging = 1;
+    }
+
+    GPIOIntEnable(GPIO_PORTF_BASE, INT_ALL_BUTTONS);
 }
 
 int main(void) {
@@ -102,13 +144,14 @@ int main(void) {
 
   initBuzzer();
 
-  // toneBuzzer(O4C);
-  PWMGenPeriodSet(PWM0_BASE, PWM_GEN_1, O4C);
-  PWMPulseWidthSet(PWM0_BASE, PWM_OUT_3, O4C >> 1);
-  PWMOutputState(PWM0_BASE, PWM_OUT_3_BIT, true);
+  toneBuzzer(O4C);
+  //PWMGenPeriodSet(PWM0_BASE, PWM_GEN_1, O4C);
+  //PWMPulseWidthSet(PWM0_BASE, PWM_OUT_3, O4C >> 1);
+  //PWMOutputState(PWM0_BASE, PWM_OUT_3_BIT, true);
   delay_ms(1000);
-  // restBuzzer();
-  PWMOutputState(PWM0_BASE, PWM_OUT_3_BIT, false);
+  restBuzzer();
+  //PWMOutputState(PWM0_BASE, PWM_OUT_3_BIT, false);
+  GPIOIntEnable(GPIO_PORTF_BASE,INT_ALL_BUTTONS);
   
   SysTickPeriodSet(SysCtlClockGet() / SYSTICKS_PER_SEC);
   SysTickEnable();

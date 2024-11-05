@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <?ccsproject version="1.0"?>
 <projectOptions>
+	<deviceVariant value="Cortex M.LM4F120H5QR"/>
 	<deviceFamily value="TMS470"/>
-	<origin value="C:/Users/ku0143/Downloads/workspace_v10_1-20241103T140536Z-001/workspace_v10_1/buzzer"/>
+	<deviceEndianness value="little"/>
+	<codegenToolVersion value="5.0.3"/>
+	<isElfFormat value="true"/>
+	<connection value=""/>
+	<rts value="libc.a"/>
 	<isTargetManual value="true"/>
+	<origin value="C:/Users/ku0143/マイドライブ/KIT/TA/embedded_system/win/2020_01_blinky_buzzer_win/buzzer"/>
 </projectOptions>

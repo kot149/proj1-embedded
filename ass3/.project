@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>ass1-ass2-ass1ex</name>
+	<name>ass3</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -27,11 +27,11 @@
 	<variableList>
 		<variable>
 			<name>ORIGINAL_PROJECT_ROOT</name>
-			<value>$%7BHOME%7D/ti/TivaWare_C_Series-1.0/examples/boards/ek-tm4c123gxl/project0/ccs</value>
+			<value>$%7BTI_PRODUCTS_DIR__TIREX%7D/TivaWare_C_Series-1.0/examples/boards/ek-tm4c123gxl/project0/ccs/</value>
 		</variable>
 		<variable>
 			<name>SW_ROOT</name>
-			<value>file:/C:/ti/TivaWare_C_Series-1.0</value>
+			<value>$%7BTI_PRODUCTS_DIR__TIREX%7D/TivaWare_C_Series-1.0</value>
 		</variable>
 	</variableList>
 </projectDescription>
