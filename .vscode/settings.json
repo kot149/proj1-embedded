@@ -10,5 +10,16 @@
         "PART_TM4C123GH6PM",
         "TARGET_IS_BLIZZARD_RB1",
         "PART_TM4C123GE6PM"
-    ]
+    ],
+    "files.associations": {
+        "*.exp": "tcl",
+        "*.ahk1": "ahk",
+        "i2c.h": "c"
+    },
+    "cortex-debug.armToolchainPath": "C:/Users/ku0143/AppData/Local/UniGetUI/Chocolatey/bin",
+    "cortex-debug.openocdPath": "C:/Users/ku0143/AppData/Local/UniGetUI/Chocolatey/bin/openocd.exe",
+    "debug.showBreakpointsInOverviewRuler": true,
+    "debug.toolBarLocation": "docked",
+    "debug.internalConsoleOptions": "openOnSessionStart",
+    "debug.console.closeOnEnd": false
 }

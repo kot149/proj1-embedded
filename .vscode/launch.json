@@ -1,0 +1,36 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "TM4C Debug (TI GDB Agent)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/${relativeFileDirname}/Debug/${relativeFileDirname}.out",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:/Users/ku0143/AppData/Local/UniGetUI/Chocolatey/bin/arm-none-eabi-gdb.exe",
+            "miDebuggerServerAddress": "localhost:55000",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set remote target",
+                    "text": "set remotetimeout 60",
+                    "ignoreFailures": true
+                }
+            ],
+            "serverLaunchTimeout": 20000,
+            "targetArchitecture": "arm",
+            "preLaunchTask": "Build Only",
+            "debugServerPath": "C:/ti/ccs1280/ccs/utils/bin/gdb_agent_console.exe",
+            "debugServerArgs": "--debug-port=55000 --ccxml-config=\"${workspaceFolder}/${relativeFileDirname}/target_config.ccxml\""
+        }
+    ]
+}
