@@ -54,8 +54,9 @@ dkms.conf
 
 # Other
 .jxbrowser.userdata/*
-.metadata/*
+.metadata/
 */.launches
-*/.launches/*
+*/.launches/
 *.launch
-/.metadata/
+.metadata/
+compare/
