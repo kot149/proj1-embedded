@@ -24,5 +24,6 @@
     "debug.showBreakpointsInOverviewRuler": true,
     "debug.toolBarLocation": "docked",
     "debug.internalConsoleOptions": "openOnSessionStart",
-    "debug.console.closeOnEnd": false
+    "debug.console.closeOnEnd": false,
+    "makefile.configureOnOpen": true
 }
