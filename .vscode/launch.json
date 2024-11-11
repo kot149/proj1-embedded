@@ -31,6 +31,15 @@
             "preLaunchTask": "Build Only",
             "debugServerPath": "C:/ti/ccs1280/ccs/utils/bin/gdb_agent_console.exe",
             "debugServerArgs": "--debug-port=55000 --ccxml-config=\"${workspaceFolder}/${relativeFileDirname}/target_config.ccxml\""
+        },
+        {
+            "name": "ass1+2+1ex_blinky_colors",
+            "type": "ccs-debug",
+            "request": "launch",
+            "projectInfo": {
+                "name": "ass1+2+1ex_blinky_colors",
+                "resourceId": "/ass1+2+1ex_blinky_colors/blinky_main.c"
+            }
         }
     ]
 }
