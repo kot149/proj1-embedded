@@ -6,4 +6,5 @@
 	<connection value="common/targetdb/connections/Stellaris_ICDI_Connection.xml"/>
 	<isTargetManual value="true"/>
 	<origin value="C:/Users/ku0143/Downloads/workspace_v10_1-20241103T140536Z-001/workspace_v10_1/lcd_icon"/>
+	<activeTargetConfiguration value="targetConfigs/Tiva TM4C123GE6PM.ccxml"/>
 </projectOptions>

@@ -2,4 +2,5 @@
 <?ccsproject version="1.0"?>
 <projectOptions>
 	<deviceFamily value="TMS470"/>
+	<activeTargetConfiguration value="target_config.ccxml"/>
 </projectOptions>

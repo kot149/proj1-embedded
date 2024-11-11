@@ -4,4 +4,5 @@
 	<deviceFamily value="TMS470"/>
 	<isTargetManual value="true"/>
 	<origin value="C:/Users/ku0143/Downloads/workspace_v10_1-20241103T140536Z-001/workspace_v10_1/lcd_assh3"/>
+	<activeTargetConfiguration value="target_config.ccxml"/>
 </projectOptions>
